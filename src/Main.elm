@@ -1,55 +1,30 @@
 import Browser
-import Html exposing (Html, button, div, text)
-import Html.Events exposing (onClick)
-
+import Html exposing (Html, button, div, text, input)
+import Html.Attributes exposing (..)
+import Html.Events exposing (..)
 
 main =
   Browser.sandbox { init = init, update = update, view = view }
 
+-- Model
+type alias State = String
 
--- MODEL
+init : State
+init = ""
 
-type alias Model = Int
+-- Update
+type Action = UpdateInput String
 
-init : Model
-init =
-  0
+update : Action -> State -> State
+update action model =
+  case action of
+    UpdateInput str -> str
 
-
--- UPDATE
-
-type Msg = Increment5 | Increment1 | Decrement1 | Decrement5
-
-increment : Int -> Int -> Int
-increment intToIncrement originalInt =
-  originalInt + intToIncrement
-
-decrement intToDecrement originalInt =
-  originalInt - intToDecrement
-
-update : Msg -> Model -> Model
-update msg model =
-  case msg of
-    Increment5 ->
-      increment 5 model
-
-    Increment1 ->
-      increment 1 model
-
-    Decrement5 ->
-      decrement 5 model
-
-    Decrement1 ->
-      decrement 1 model
-
--- VIEW
-
-view : Model -> Html Msg
+-- View
+view : State -> Html Action
 view model =
-  div []
-    [ button [ onClick Increment5 ] [ text "+5" ]
-    , button [ onClick Increment1 ] [ text "+1" ]
-    , div [] [ text (String.fromInt model) ]
-    , button [ onClick Decrement1 ] [ text "-1" ]
-    , button [ onClick Decrement5 ] [ text "-5" ]
+  div [attribute "bob" "ross"]
+    [
+      input [placeholder "Add your awesome text hereee!! WOOO", value model, onInput UpdateInput] []
+    , div [] [ text model ]
     ]
